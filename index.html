@@ -1,10 +1,11 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Vostok Dynamics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 <style>
   html, body {
     margin: 0;
@@ -115,23 +116,22 @@
     letter-spacing: 0.05em;
   }
 
-  .gagarin-img {
-    max-width: 40vw;
-    height: auto;
-    margin-top: 2rem;
-  }
-
-  .gagarin-section {
+  .under-construction {
     background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4rem 6vw;
+    padding: 6rem 6vw;
   }
 
-  .gagarin-section img {
-    max-width: 60vw;
-    height: auto;
+  .uc-text {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 3.5rem);
+    color: #1a1a1a;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 0;
   }
 
   .music-toggle {
@@ -190,11 +190,10 @@
       </svg>
     </a>
     <p class="ig-handle">@vostok.dyn</p>
-    <img class="gagarin-img" src="gagarin.png" alt="Yuri Gagarin">
   </section>
 
-  <section class="gagarin-section">
-    <img src="gagarin.png" alt="Yuri Gagarin">
+  <section class="under-construction">
+    <p class="uc-text">Under Construction</p>
   </section>
 
   <script>
