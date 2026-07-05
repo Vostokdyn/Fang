@@ -12,8 +12,9 @@
     background: #ffffff;
     font-family: 'Russo One', sans-serif;
   }
- 
+
   .hero {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -21,8 +22,27 @@
     justify-content: center;
     text-align: center;
     padding: 6vh 6vw;
+    overflow: hidden;
   }
- 
+
+  .gagarin-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 130vh;
+    width: auto;
+    max-width: none;
+    opacity: 0.85;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .hero > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .hero img {
     max-width: 75vw;
     max-height: 75vh;
@@ -30,7 +50,7 @@
     height: auto;
     margin-bottom: 3rem;
   }
- 
+
   .date {
     font-family: 'Russo One', sans-serif;
     font-weight: 400;
@@ -40,11 +60,11 @@
     margin: 0 0 2rem 0;
     line-height: 1;
   }
- 
+
   .quote-block {
     max-width: 700px;
   }
- 
+
   .quote {
     font-family: 'Russo One', sans-serif;
     font-weight: 400;
@@ -53,13 +73,13 @@
     line-height: 1.6;
     margin: 0 0 1rem 0;
   }
- 
+
   .attribution {
     font-family: 'Russo One', sans-serif;
     font-size: clamp(0.9rem, 1.8vw, 1.1rem);
     color: #c9a400;
   }
- 
+
   /* extra scrollable space below the hero */
   .spacer {
     min-height: 100vh;
@@ -70,7 +90,7 @@
     justify-content: center;
     gap: 1.75rem;
   }
- 
+
   .ig-label {
     font-family: 'Russo One', sans-serif;
     font-size: clamp(1.2rem, 2.5vw, 1.8rem);
@@ -78,7 +98,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
- 
+
   .instagram-link {
     position: relative;
     display: inline-flex;
@@ -90,24 +110,24 @@
     text-decoration: none;
     background: #1a1a1a;
   }
- 
+
   .instagram-link svg {
     width: 44px;
     height: 44px;
     fill: #ffffff;
   }
- 
+
   .instagram-link:hover {
     background: #d92b2b;
   }
- 
+
   .ig-handle {
     font-family: 'Russo One', sans-serif;
     font-size: clamp(0.85rem, 1.6vw, 1rem);
     color: #962fbf;
     letter-spacing: 0.05em;
   }
- 
+
   .music-toggle {
     position: fixed;
     top: 24px;
@@ -123,11 +143,11 @@
     cursor: pointer;
     z-index: 10;
   }
- 
+
   .music-toggle:hover {
     background: #d92b2b;
   }
- 
+
   .music-toggle svg {
     width: 26px;
     height: 26px;
@@ -136,26 +156,27 @@
 </style>
 </head>
 <body>
- 
+
   <button class="music-toggle" id="musicToggle" aria-label="Play music">
     <svg id="musicIcon" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg">
       <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9S58.2 481.1 73 472L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
     </svg>
   </button>
- 
+
   <audio id="bgMusic" src="music.mp3" loop></audio>
- 
+
   <section class="hero">
+    <img class="gagarin-bg" src="gagarin.png" alt="">
     <img src="VOSTOK_DYNAMICS.png" alt="Vostok Dynamics">
- 
+
     <h1 class="date">April 12, 1961</h1>
- 
+
     <div class="quote-block">
       <p class="quote">"To be the first to enter the cosmos, to engage, single-handed, in an unprecedented duel with nature—could one dream of anything more?"</p>
       <p class="attribution">— Yuri Gagarin</p>
     </div>
   </section>
- 
+
   <section class="spacer">
     <p class="ig-label">My Instagram</p>
     <a class="instagram-link" href="https://www.instagram.com/vostok.dyn" target="_blank" rel="noopener noreferrer" aria-label="Follow Vostok Dynamics on Instagram">
@@ -165,15 +186,15 @@
     </a>
     <p class="ig-handle">@vostok.dyn</p>
   </section>
- 
+
   <script>
     const musicBtn = document.getElementById('musicToggle');
     const musicIcon = document.getElementById('musicIcon');
     const audio = document.getElementById('bgMusic');
- 
+
     const playIconPath = "M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9S58.2 481.1 73 472L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z";
     const pauseIconPath = "M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z";
- 
+
     musicBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -188,6 +209,6 @@
       }
     });
   </script>
- 
+
 </body>
 </html>
