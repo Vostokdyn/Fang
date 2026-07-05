@@ -25,22 +25,6 @@
     overflow: hidden;
   }
 
-  .gagarin-bg {
-    position: absolute !important;
-    bottom: 0 !important;
-    right: 0 !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    width: 65vw !important;
-    height: auto !important;
-    max-width: none !important;
-    max-height: none !important;
-    opacity: 0.9;
-    z-index: 0;
-    pointer-events: none;
-  }
-
   .hero > * {
     position: relative;
     z-index: 1;
@@ -131,6 +115,25 @@
     letter-spacing: 0.05em;
   }
 
+  .gagarin-img {
+    max-width: 40vw;
+    height: auto;
+    margin-top: 2rem;
+  }
+
+  .gagarin-section {
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 6vw;
+  }
+
+  .gagarin-section img {
+    max-width: 60vw;
+    height: auto;
+  }
+
   .music-toggle {
     position: fixed;
     top: 24px;
@@ -169,7 +172,6 @@
   <audio id="bgMusic" src="music.mp3" loop></audio>
 
   <section class="hero">
-    <img class="gagarin-bg" src="gagarin.png" alt="">
     <img src="VOSTOK_DYNAMICS.png" alt="Vostok Dynamics">
 
     <h1 class="date">April 12, 1961</h1>
@@ -188,6 +190,11 @@
       </svg>
     </a>
     <p class="ig-handle">@vostok.dyn</p>
+    <img class="gagarin-img" src="gagarin.png" alt="Yuri Gagarin">
+  </section>
+
+  <section class="gagarin-section">
+    <img src="gagarin.png" alt="Yuri Gagarin">
   </section>
 
   <script>
