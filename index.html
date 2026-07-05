@@ -88,48 +88,17 @@
     height: 100px;
     border-radius: 50%;
     text-decoration: none;
-    background: linear-gradient(45deg, #feda75, #d92b2b, #962fbf, #4f5bd5);
-    background-size: 300% 300%;
-    animation: ig-gradient 6s ease infinite;
-    box-shadow: 0 0 0 rgba(217, 43, 43, 0);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
- 
-  .instagram-link::before {
-    content: "";
-    position: absolute;
-    inset: 4px;
-    border-radius: 50%;
-    background: #ffffff;
-    transition: inset 0.3s ease;
+    background: #1a1a1a;
   }
  
   .instagram-link svg {
-    position: relative;
     width: 44px;
     height: 44px;
-    z-index: 1;
-    fill: #1a1a1a;
-    transition: fill 0.3s ease;
-  }
- 
-  .instagram-link:hover {
-    transform: scale(1.1) rotate(-4deg);
-    box-shadow: 0 0 35px rgba(217, 43, 43, 0.5);
-  }
- 
-  .instagram-link:hover::before {
-    inset: 100px;
-  }
- 
-  .instagram-link:hover svg {
     fill: #ffffff;
   }
  
-  @keyframes ig-gradient {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  .instagram-link:hover {
+    background: #d92b2b;
   }
  
   .ig-handle {
@@ -138,9 +107,43 @@
     color: #962fbf;
     letter-spacing: 0.05em;
   }
+ 
+  .music-toggle {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+  }
+ 
+  .music-toggle:hover {
+    background: #d92b2b;
+  }
+ 
+  .music-toggle svg {
+    width: 26px;
+    height: 26px;
+    fill: #ffffff;
+  }
 </style>
 </head>
 <body>
+ 
+  <button class="music-toggle" id="musicToggle" aria-label="Play music">
+    <svg id="musicIcon" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg">
+      <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9S58.2 481.1 73 472L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
+    </svg>
+  </button>
+ 
+  <audio id="bgMusic" src="music.mp3" loop></audio>
  
   <section class="hero">
     <img src="VOSTOK_DYNAMICS.png" alt="Vostok Dynamics">
@@ -163,6 +166,28 @@
     <p class="ig-handle">@vostok.dyn</p>
   </section>
  
+  <script>
+    const musicBtn = document.getElementById('musicToggle');
+    const musicIcon = document.getElementById('musicIcon');
+    const audio = document.getElementById('bgMusic');
+ 
+    const playIconPath = "M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9S58.2 481.1 73 472L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z";
+    const pauseIconPath = "M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z";
+ 
+    musicBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        musicIcon.querySelector('path').setAttribute('d', pauseIconPath);
+        musicIcon.setAttribute('viewBox', '0 0 320 512');
+        musicBtn.setAttribute('aria-label', 'Pause music');
+      } else {
+        audio.pause();
+        musicIcon.querySelector('path').setAttribute('d', playIconPath);
+        musicIcon.setAttribute('viewBox', '0 0 384 512');
+        musicBtn.setAttribute('aria-label', 'Play music');
+      }
+    });
+  </script>
+ 
 </body>
 </html>
- 
