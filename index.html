@@ -14,6 +14,7 @@
     font-family: 'Russo One', sans-serif;
     color: #f2ede3;
     overflow-x: hidden;
+    background-color: #0a2440;
   }
 
   /* Parallax background: fixed viewport-sized window containing an
@@ -23,14 +24,15 @@
     inset: 0;
     z-index: -3;
     overflow: hidden;
+    background-color: #0a2440;
   }
 
   .bg-wrap img {
     position: absolute;
-    top: -18%;
+    top: -30%;
     left: 50%;
     width: 100%;
-    height: 136%;
+    height: 160%;
     object-fit: cover;
     transform: translate3d(-50%, 0, 0) scale(1.06);
     will-change: transform;
@@ -311,7 +313,12 @@
       const PARALLAX_FACTOR = 0.18;
 
       function updateParallax() {
-        const offset = window.scrollY * PARALLAX_FACTOR;
+        // The image has ~30% buffer top and bottom (see CSS). Cap the shift
+        // well inside that buffer so the image can never run out of cover,
+        // no matter how long the page is.
+        const maxOffset = window.innerHeight * 0.22;
+        const raw = window.scrollY * PARALLAX_FACTOR;
+        const offset = Math.min(raw, maxOffset);
         bgImg.style.transform = `translate3d(-50%, -${offset}px, 0) scale(1.06)`;
         ticking = false;
       }
