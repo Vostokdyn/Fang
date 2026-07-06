@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vostok Dynamics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,8 +11,33 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: #ffffff;
     font-family: 'Russo One', sans-serif;
+    color: #f2ede3;
+  }
+
+  /* Fixed full-page background: tiger artwork + dark overlay for legibility */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: url('vostok-tigers-bg.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to bottom,
+      rgba(4, 8, 20, 0.55) 0%,
+      rgba(4, 8, 20, 0.35) 40%,
+      rgba(4, 8, 20, 0.65) 100%
+    );
   }
 
   .hero {
@@ -43,10 +69,11 @@
     font-family: 'Russo One', sans-serif;
     font-weight: 400;
     font-size: clamp(2.5rem, 7vw, 6rem);
-    color: #d92b2b;
+    color: #e8392f;
     letter-spacing: 0.05em;
     margin: 0 0 2rem 0;
     line-height: 1;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
   }
 
   .quote-block {
@@ -57,21 +84,22 @@
     font-family: 'Russo One', sans-serif;
     font-weight: 400;
     font-size: clamp(1rem, 2.2vw, 1.4rem);
-    color: #1a1a1a;
+    color: #f2ede3;
     line-height: 1.6;
     margin: 0 0 1rem 0;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   }
 
   .attribution {
     font-family: 'Russo One', sans-serif;
     font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-    color: #c9a400;
+    color: #e0b83e;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
   }
 
   /* extra scrollable space below the hero */
   .spacer {
     min-height: 100vh;
-    background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -82,9 +110,10 @@
   .ig-label {
     font-family: 'Russo One', sans-serif;
     font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-    color: #1a1a1a;
+    color: #f2ede3;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
   }
 
   .instagram-link {
@@ -96,7 +125,9 @@
     height: 100px;
     border-radius: 50%;
     text-decoration: none;
-    background: #1a1a1a;
+    background: rgba(20, 20, 20, 0.75);
+    border: 2px solid rgba(242, 237, 227, 0.25);
+    transition: background 0.2s ease, border-color 0.2s ease;
   }
 
   .instagram-link svg {
@@ -107,17 +138,18 @@
 
   .instagram-link:hover {
     background: #d92b2b;
+    border-color: rgba(242, 237, 227, 0.6);
   }
 
   .ig-handle {
     font-family: 'Russo One', sans-serif;
     font-size: clamp(0.85rem, 1.6vw, 1rem);
-    color: #962fbf;
+    color: #c9a4ff;
     letter-spacing: 0.05em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
   }
 
   .under-construction {
-    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,10 +160,11 @@
     font-family: 'Ubuntu', sans-serif;
     font-weight: 700;
     font-size: clamp(1.8rem, 5vw, 3.5rem);
-    color: #1a1a1a;
+    color: #f2ede3;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     margin: 0;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
   }
 
   .music-toggle {
@@ -144,20 +177,33 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: #1a1a1a;
+    background: rgba(20, 20, 20, 0.75);
     border: none;
     cursor: pointer;
     z-index: 10;
+    transition: background 0.2s ease;
   }
 
   .music-toggle:hover {
     background: #d92b2b;
   }
 
+  .music-toggle:focus-visible {
+    outline: 2px solid #e0b83e;
+    outline-offset: 2px;
+  }
+
   .music-toggle svg {
     width: 26px;
     height: 26px;
     fill: #ffffff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .music-toggle,
+    .instagram-link {
+      transition: none;
+    }
   }
 </style>
 </head>
@@ -169,7 +215,7 @@
     </svg>
   </button>
 
-  <audio id="bgMusic" src="music.mp3" loop></audio>
+  <audio id="bgMusic" src="music.mp3" loop preload="none"></audio>
 
   <section class="hero">
     <img src="VOSTOK_DYNAMICS.png" alt="Vostok Dynamics">
@@ -206,10 +252,17 @@
 
     musicBtn.addEventListener('click', () => {
       if (audio.paused) {
-        audio.play();
-        musicIcon.querySelector('path').setAttribute('d', pauseIconPath);
-        musicIcon.setAttribute('viewBox', '0 0 320 512');
-        musicBtn.setAttribute('aria-label', 'Pause music');
+        // audio.play() returns a promise that rejects if the browser
+        // blocks autoplay or the file fails to load — always handle it.
+        audio.play()
+          .then(() => {
+            musicIcon.querySelector('path').setAttribute('d', pauseIconPath);
+            musicIcon.setAttribute('viewBox', '0 0 320 512');
+            musicBtn.setAttribute('aria-label', 'Pause music');
+          })
+          .catch((err) => {
+            console.warn('Playback failed:', err);
+          });
       } else {
         audio.pause();
         musicIcon.querySelector('path').setAttribute('d', playIconPath);
