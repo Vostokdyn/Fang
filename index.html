@@ -22,7 +22,7 @@
   .bg-wrap {
     position: fixed;
     inset: 0;
-    z-index: -3;
+    z-index: 0;
     overflow: hidden;
     background-color: #0a2440;
   }
@@ -42,7 +42,7 @@
   .stars {
     position: fixed;
     inset: 0;
-    z-index: -2;
+    z-index: 1;
     pointer-events: none;
   }
 
@@ -62,7 +62,7 @@
   .bg-overlay {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 2;
     background: linear-gradient(
       to bottom,
       rgba(4, 8, 20, 0.55) 0%,
@@ -94,6 +94,7 @@
 
   .hero {
     position: relative;
+    z-index: 3;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -151,6 +152,8 @@
 
   /* extra scrollable space below the hero */
   .spacer {
+    position: relative;
+    z-index: 3;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -202,6 +205,8 @@
   }
 
   .under-construction {
+    position: relative;
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: center;
