@@ -7,7 +7,7 @@
 <title>Vostok Dynamics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Ubuntu:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   html, body {
     margin: 0;
@@ -240,8 +240,10 @@
     position: relative;
     z-index: 3;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
     padding: 6rem 6vw;
   }
 
@@ -308,6 +310,160 @@
       height: 36px;
     }
   }
+
+  /* ---------- Glitch effect (reusable) ---------- */
+  /* Apply to any text element that has a matching data-text attribute.
+     .is-glitching is toggled briefly by JS for a signal-cutting-out burst. */
+  [data-glitch] {
+    position: relative;
+    display: inline-block;
+  }
+
+  [data-glitch]::before,
+  [data-glitch]::after {
+    content: attr(data-glitch);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    color: inherit;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  [data-glitch].is-glitching::before,
+  [data-glitch].is-glitching::after {
+    opacity: 0.9;
+  }
+
+  [data-glitch].is-glitching::before {
+    color: #4dfff2;
+    clip-path: inset(15% 0 55% 0);
+    transform: translate(-4px, -2px);
+    animation: glitch-shift-a 0.32s steps(2, end);
+  }
+
+  [data-glitch].is-glitching::after {
+    color: #ff2b6d;
+    clip-path: inset(60% 0 10% 0);
+    transform: translate(4px, 2px);
+    animation: glitch-shift-b 0.32s steps(2, end);
+  }
+
+  @keyframes glitch-shift-a {
+    0%   { clip-path: inset(15% 0 55% 0); transform: translate(-4px, -2px); }
+    30%  { clip-path: inset(45% 0 20% 0); transform: translate(3px, 1px); }
+    60%  { clip-path: inset(5% 0 70% 0);  transform: translate(-2px, 2px); }
+    100% { clip-path: inset(35% 0 40% 0); transform: translate(2px, -1px); }
+  }
+
+  @keyframes glitch-shift-b {
+    0%   { clip-path: inset(60% 0 10% 0); transform: translate(4px, 2px); }
+    30%  { clip-path: inset(20% 0 50% 0); transform: translate(-3px, -1px); }
+    60%  { clip-path: inset(75% 0 5% 0);  transform: translate(2px, -2px); }
+    100% { clip-path: inset(40% 0 35% 0); transform: translate(-2px, 1px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-glitch].is-glitching::before,
+    [data-glitch].is-glitching::after {
+      display: none;
+    }
+  }
+
+  /* ---------- Founder's note ---------- */
+  .founder-note {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
+    letter-spacing: 0.05em;
+    color: #7fa6c9;
+    opacity: 0.85;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  /* ---------- Terminal-style typing text (Under Construction) ---------- */
+  .uc-terminal {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    letter-spacing: 0.04em;
+    color: #7dffb0;
+    text-shadow: 0 0 10px rgba(125, 255, 176, 0.5);
+    min-height: 1.6em;
+  }
+
+  .uc-terminal .cursor {
+    display: inline-block;
+    width: 0.55em;
+    margin-left: 2px;
+    background: #7dffb0;
+    animation: blink 0.85s steps(1) infinite;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .uc-terminal .cursor { animation: none; opacity: 1; }
+  }
+
+  /* ---------- Fixed side progress indicator ---------- */
+  .progress-nav {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid rgba(242, 237, 227, 0.45);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .progress-dot:hover {
+    border-color: #e0b83e;
+    transform: scale(1.2);
+  }
+
+  .progress-dot.active {
+    background: #e0b83e;
+    border-color: #e0b83e;
+    transform: scale(1.3);
+  }
+
+  .progress-dot:focus-visible {
+    outline: 2px solid #e0b83e;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 480px) {
+    .progress-nav {
+      right: 12px;
+      gap: 10px;
+    }
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-dot { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -318,6 +474,12 @@
   <div class="stars" id="stars"></div>
   <div class="bg-overlay"></div>
 
+  <nav class="progress-nav" id="progressNav" aria-label="Section navigation">
+    <button class="progress-dot" data-target="section-hero" aria-label="Go to top"></button>
+    <button class="progress-dot" data-target="section-social" aria-label="Go to social links"></button>
+    <button class="progress-dot" data-target="section-uc" aria-label="Go to under construction"></button>
+  </nav>
+
   <button class="music-toggle" id="musicToggle" aria-label="Play music">
     <svg id="musicIcon" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg">
       <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9S58.2 481.1 73 472L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/>
@@ -326,10 +488,10 @@
 
   <audio id="bgMusic" src="music.mp3" loop preload="none"></audio>
 
-  <section class="hero">
+  <section class="hero" id="section-hero">
     <img src="VOSTOK_DYNAMICS.png" alt="Vostok Dynamics">
 
-    <h1 class="date">1962, 1974, 1986, 1998, 2010, and 2022</h1>
+    <h1 class="date" id="dateText" data-glitch="1962, 1974, 1986, 1998, 2010, and 2022">1962, 1974, 1986, 1998, 2010, and 2022</h1>
 
     <div class="quote-block reveal">
       <p class="quote">"If you do not enter the tiger's den, how can you get his cub?"</p>
@@ -337,7 +499,7 @@
     </div>
   </section>
 
-  <section class="spacer">
+  <section class="spacer" id="section-social">
     <p class="ig-label reveal">Find Us</p>
 
     <div class="social-row">
@@ -361,8 +523,9 @@
     </div>
   </section>
 
-  <section class="under-construction">
-    <p class="uc-text reveal">Under Construction</p>
+  <section class="under-construction" id="section-uc">
+    <p class="uc-terminal reveal" id="ucTerminal"><span id="ucTyped"></span><span class="cursor">&nbsp;</span></p>
+    <p class="founder-note reveal">— built by @epsilon.jpeg · 2026</p>
   </section>
 
   <script>
@@ -415,18 +578,118 @@
     // --- Scroll reveal ---
     const revealEls = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window && revealEls.length) {
-      const observer = new IntersectionObserver((entries) => {
+      const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
+            revealObserver.unobserve(entry.target);
           }
         });
       }, { threshold: 0.2 });
 
-      revealEls.forEach((el) => observer.observe(el));
+      revealEls.forEach((el) => revealObserver.observe(el));
     } else {
       revealEls.forEach((el) => el.classList.add('is-visible'));
+    }
+
+    // --- Glitch bursts ---
+    // Briefly toggles .is-glitching on any [data-glitch] element at random
+    // intervals, giving a signal-cutting-out effect. Runs once immediately
+    // shortly after load, then repeats on a random cadence.
+    const glitchEls = document.querySelectorAll('[data-glitch]');
+    if (glitchEls.length && !prefersReducedMotion) {
+      function fireGlitch(el) {
+        el.classList.add('is-glitching');
+        setTimeout(() => el.classList.remove('is-glitching'), 340);
+      }
+      function scheduleGlitch(el) {
+        const delay = 3500 + Math.random() * 5000;
+        setTimeout(() => {
+          fireGlitch(el);
+          scheduleGlitch(el);
+        }, delay);
+      }
+      glitchEls.forEach((el) => {
+        setTimeout(() => fireGlitch(el), 700 + Math.random() * 800);
+        scheduleGlitch(el);
+      });
+      // Also glitch on hover/focus for a bit of interactivity
+      glitchEls.forEach((el) => {
+        el.addEventListener('mouseenter', () => fireGlitch(el));
+      });
+    }
+
+    // --- Under Construction: typewriter + glitch finish ---
+    const ucTerminal = document.getElementById('ucTerminal');
+    const ucTyped = document.getElementById('ucTyped');
+    if (ucTerminal && ucTyped) {
+      const FULL_TEXT = '> UNDER CONSTRUCTION_';
+      let typed = false;
+
+      function typeText() {
+        if (typed) return;
+        typed = true;
+        if (prefersReducedMotion) {
+          ucTyped.textContent = FULL_TEXT;
+          return;
+        }
+        let i = 0;
+        const interval = setInterval(() => {
+          i++;
+          ucTyped.textContent = FULL_TEXT.slice(0, i);
+          if (i >= FULL_TEXT.length) {
+            clearInterval(interval);
+            // brief glitch burst once typing finishes
+            ucTerminal.setAttribute('data-glitch', FULL_TEXT);
+            ucTerminal.classList.add('is-glitching');
+            setTimeout(() => ucTerminal.classList.remove('is-glitching'), 340);
+          }
+        }, 55);
+      }
+
+      if ('IntersectionObserver' in window) {
+        const typeObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              typeText();
+              typeObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.4 });
+        typeObserver.observe(ucTerminal);
+      } else {
+        typeText();
+      }
+    }
+
+    // --- Fixed side progress indicator ---
+    const progressDots = document.querySelectorAll('.progress-dot');
+    const trackedSections = ['section-hero', 'section-social', 'section-uc']
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    progressDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const target = document.getElementById(dot.dataset.target);
+        if (target) {
+          target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    if ('IntersectionObserver' in window && trackedSections.length) {
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            progressDots.forEach((dot) => {
+              dot.classList.toggle('active', dot.dataset.target === id);
+            });
+          }
+        });
+      }, { threshold: 0.5 });
+
+      trackedSections.forEach((section) => sectionObserver.observe(section));
     }
 
     const musicBtn = document.getElementById('musicToggle');
