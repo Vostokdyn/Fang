@@ -93,6 +93,68 @@
     }
   }
 
+  /* ---------- Boot flicker: brief CRT-style startup ---------- */
+  .boot-flicker {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease;
+  }
+
+  .boot-flicker::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.06) 0px,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    animation: scan-drift 0.25s linear infinite;
+  }
+
+  .boot-text {
+    position: relative;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    color: #7dffb0;
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 8px rgba(125, 255, 176, 0.6);
+    animation: flicker 0.15s steps(2) infinite;
+  }
+
+  .boot-text .cursor {
+    display: inline-block;
+    width: 0.6em;
+    background: #7dffb0;
+    animation: blink 0.8s steps(1) infinite;
+  }
+
+  .boot-flicker.boot-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes scan-drift {
+    from { background-position: 0 0; }
+    to { background-position: 0 4px; }
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .boot-flicker { display: none; }
+  }
+
   .hero {
     position: relative;
     z-index: 3;
@@ -468,6 +530,10 @@
 </head>
 <body>
 
+  <div class="boot-flicker" id="bootFlicker">
+    <p class="boot-text">&gt;&gt; INITIALIZING VOSTOK DYNAMICS<span class="cursor">&nbsp;</span></p>
+  </div>
+
   <div class="bg-wrap">
     <img id="bgImg" src="vostok-tigers-bg.jpg" alt="" role="presentation">
   </div>
@@ -500,7 +566,7 @@
   </section>
 
   <section class="spacer" id="section-social">
-    <p class="ig-label reveal">Socials :3</p>
+    <p class="ig-label reveal">Find Us</p>
 
     <div class="social-row">
       <div class="social-item">
@@ -509,7 +575,7 @@
             <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
           </svg>
         </a>
-        <p class="social-handle ig-handle reveal">Instagram</p>
+        <p class="social-handle ig-handle reveal">@epsilon.jpeg</p>
       </div>
 
       <div class="social-item">
@@ -518,7 +584,7 @@
             <path d="M524.5 69.8a1.5 1.5 0 0 0-.8-.7A485 485 0 0 0 404.1 32a1.8 1.8 0 0 0-1.9.9 337.5 337.5 0 0 0-14.9 30.6 447.8 447.8 0 0 0-134.4 0 309.5 309.5 0 0 0-15.1-30.6 1.9 1.9 0 0 0-1.9-.9A483.7 483.7 0 0 0 116.1 69a1.7 1.7 0 0 0-.8.7C39.1 183.7 18.2 294.7 28.4 404.4a2 2 0 0 0 .8 1.4A487.7 487.7 0 0 0 176 479.9a1.9 1.9 0 0 0 2.1-.7A348.2 348.2 0 0 0 208.1 430a1.9 1.9 0 0 0-1-2.6 321.2 321.2 0 0 1-45.9-21.9 1.9 1.9 0 0 1-.2-3.1c3.1-2.3 6.2-4.7 9.1-7.1a1.8 1.8 0 0 1 1.9-.3c96.3 44 200.5 44 295.6 0a1.8 1.8 0 0 1 1.9.2c2.9 2.4 6 4.9 9.1 7.2a1.9 1.9 0 0 1-.2 3.1 301.4 301.4 0 0 1-45.9 21.9 1.9 1.9 0 0 0-1 2.6 391.1 391.1 0 0 0 30 49.2 1.9 1.9 0 0 0 2.1.7A486 486 0 0 0 610.7 405.8a1.9 1.9 0 0 0 .8-1.4c12.3-126.9-20.3-236.9-85.9-334.6zM222.5 337.6c-29 0-52.8-26.6-52.8-59.2s23.3-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.6-23.3 59.2-52.8 59.2zm195.4 0c-29 0-52.8-26.6-52.8-59.2s23.3-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.6-23 59.2-52.8 59.2z"/>
           </svg>
         </a>
-        <p class="social-handle discord-handle reveal">Discordr</p>
+        <p class="social-handle discord-handle reveal">Join the server</p>
       </div>
     </div>
   </section>
@@ -530,6 +596,23 @@
 
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- Boot flicker ---
+    // Brief CRT-style startup screen, then fades out to reveal the page.
+    // Respects reduced-motion by skipping straight to hidden.
+    const bootFlicker = document.getElementById('bootFlicker');
+    if (bootFlicker) {
+      if (prefersReducedMotion) {
+        bootFlicker.remove();
+      } else {
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+          bootFlicker.classList.add('boot-hidden');
+          document.body.style.overflow = '';
+          setTimeout(() => bootFlicker.remove(), 700);
+        }, 1100);
+      }
+    }
 
     // --- Parallax background ---
     const bgImg = document.getElementById('bgImg');
